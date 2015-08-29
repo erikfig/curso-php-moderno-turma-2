@@ -4,13 +4,15 @@ namespace PhpModerno\Query;
 
 class Query
 {
+    protected $select_str = 'SELECT * FROM %s';
+    protected $delete_str = 'DELETE FROM %s';
+    protected $update_str = 'UPDATE %s SET %s';
+    protected $insert_str = 'INSERT INTO %s (%s) VALUES (%s)';
+
     protected $table;
     protected $sql;
     protected $parameters;
-    private $select_str = 'SELECT * FROM %s';
-    private $delete_str = 'DELETE FROM %s';
-    private $update_str = 'UPDATE %s SET %s';
-    private $insert_str = 'INSERT INTO %s (%s) VALUES (%s)';
+    protected $bind = [];
 
     public function table($table)
     {
@@ -32,9 +34,7 @@ class Query
 
     public function update(Array $data)
     {
-        $str = '';
-        foreach ($data as $k => $v)
-            $str = '`'.$k.'`=:'.$k;
+        $str = $this->setParams($data);
 
         $this->sql = sprintf($this->update_str, $this->table, $str);
         return $this;
@@ -42,6 +42,7 @@ class Query
 
     public function insert(Array $data)
     {
+        $this->bind = array_merge($this->bind, $data);
         $fields = implode('`, `', array_keys($data));
         $values = implode(', :', array_keys($data));
         $this->sql = sprintf($this->insert_str, $this->table, '`'.$fields.'`', ':'.$values);
@@ -50,9 +51,7 @@ class Query
 
     public function where(Array $data)
     {
-        $str = '';
-        foreach ($data as $k => $v)
-            $str = '`'.$k.'`=:'.$k;
+        $str = $this->setParams($data);
 
         $this->parameters = ' WHERE ';
         $this->parameters .= $str;
@@ -62,5 +61,21 @@ class Query
     public function getSql()
     {
         return $this->sql.$this->parameters.';';
+    }
+
+    public function getBind()
+    {
+        return $this->bind;
+    }
+
+    protected function setParams($data)
+    {
+        $str = '';
+        foreach ($data as $k => $v)
+            $str = '`'.$k.'`=:'.$k;
+
+        $this->bind = array_merge($this->bind, $data);
+
+        return $str;
     }
 }

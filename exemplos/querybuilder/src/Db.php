@@ -7,15 +7,15 @@ class Db
     protected $pdo;
     protected $config;
 
-    public function setConfig(Array $config)
+    public function config(Array $config)
     {
     	$this->config = $config;
     }
 
     public function conn()
     {
-    	$this->pdo = new PDO($dsn, $user, $password, $config);
-
+    	extract($this->config);
+    	$this->pdo = new \PDO($dsn, $user, $password, $config);
     	return $this;
     }
 

@@ -78,4 +78,15 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 		$this->assertEquals('SELECT * FROM users WHERE `id`=:id;', $sql);
 	}
+
+	public function testBindValues()
+	{
+		$query = new Query;
+		$sql = $query->table('users')
+			->where(['id'=>'1'])
+			->select()
+			->getSql();
+
+		$this->assertEquals(['id'=>1], $query->getBind());
+	}
 }
