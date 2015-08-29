@@ -4,10 +4,17 @@ namespace PhpModerno\Query;
 
 class Query
 {
-	public $sql;
+	protected $table;
+	private $select_str = 'SELECT * FROM %s;';
+
+	public function table($table)
+	{
+		$this->table = $table;
+		return $this;
+	}
 
 	public function select()
 	{
-		echo 'select'.PHP_EOL;
+		return sprintf($this->select_str, $this->table);
 	}
 }
