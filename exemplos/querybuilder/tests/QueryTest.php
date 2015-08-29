@@ -10,7 +10,8 @@ class QueryTest extends PHPUnit_Framework_TestCase
 	{
 		$query = new Query;
 		$sql = $query->table('users')
-			->select();
+			->select()
+			->getSql();
 
 		$this->assertEquals('SELECT * FROM users;', $sql);
 	}
@@ -19,7 +20,8 @@ class QueryTest extends PHPUnit_Framework_TestCase
 	{
 		$query = new Query;
 		$sql = $query->table('users')
-			->update(['name'=>'Erik']);
+			->update(['name'=>'Erik'])
+			->getSql();
 
 		$this->assertEquals('UPDATE users SET `name`=:name;', $sql);
 	}
@@ -28,7 +30,8 @@ class QueryTest extends PHPUnit_Framework_TestCase
 	{
 		$query = new Query;
 		$sql = $query->table('users')
-			->insert(['name'=>'erik', 'lastname'=>'figueiredo']);
+			->insert(['name'=>'erik', 'lastname'=>'figueiredo'])
+			->getSql();
 
 		$this->assertEquals('INSERT INTO users (`name`, `lastname`) VALUES (:name, :lastname);', $sql);
 	}
@@ -37,9 +40,42 @@ class QueryTest extends PHPUnit_Framework_TestCase
 	{
 		$query = new Query;
 		$sql = $query->table('users')
-			->delete();
+			->delete()
+			->getSql();
 
 		$this->assertEquals('DELETE FROM users;', $sql);
 	}
 
+	public function testDeleteWithWhere()
+	{
+		$query = new Query;
+		$sql = $query->table('users')
+			->where(['id'=>'1'])
+			->delete()
+			->getSql();
+
+		$this->assertEquals('DELETE FROM users WHERE `id`=:id;', $sql);
+	}
+
+	public function testUpdateWithWhere()
+	{
+		$query = new Query;
+		$sql = $query->table('users')
+			->where(['id'=>1])
+			->update(['name'=>'Erik'])
+			->getSql();
+
+		$this->assertEquals('UPDATE users SET `name`=:name WHERE `id`=:id;', $sql);
+	}
+
+	public function testSelectWithWhere()
+	{
+		$query = new Query;
+		$sql = $query->table('users')
+			->where(['id'=>'1'])
+			->select()
+			->getSql();
+
+		$this->assertEquals('SELECT * FROM users WHERE `id`=:id;', $sql);
+	}
 }
