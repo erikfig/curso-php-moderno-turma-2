@@ -2,8 +2,9 @@
 
 include __DIR__.'/vendor/autoload.php';
 
+use PhpModerno\Mvc\Controller;
+use PhpModerno\Mvc\Loader;
 use PhpModerno\Mvc\View;
 
-$view = new View(__DIR__.'/views');
-
-echo $view->render('index.php', ['name'=>'Erik'], 'template.php');
+$loader = new Loader();
+echo $loader->controller('meu', 'index', ['name'=>'Erik']);
