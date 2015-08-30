@@ -1,0 +1,10 @@
+{
+	"require": {
+		"symfony/http-foundation": "*"
+	},
+	"autoload": {
+		"psr-4": {
+			"PhpModerno\\Mvc\\": "src/PhpModerno/Mvc"
+		}
+	}
+}
