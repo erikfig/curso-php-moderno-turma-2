@@ -36,6 +36,18 @@ class Db
         return $this->stmt->fetch($mode);
     }
 
+    public function save(Query $builder)
+    {
+        $this->stmt = $this->pdo->prepare($builder->getSql());
+        $this->stmt->execute($builder->getBind());
+    }
+
+    public function delete(Query $builder)
+    {
+        $this->stmt = $this->pdo->prepare($builder->getSql());
+        $this->stmt->execute($builder->getBind());
+    }
+
     protected function exec(Query $builder)
     {
         $this->stmt = $this->pdo->prepare($builder->getSql());

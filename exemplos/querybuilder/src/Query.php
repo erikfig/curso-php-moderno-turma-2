@@ -2,13 +2,8 @@
 
 namespace PhpModerno\Query;
 
-class Query
+abstract class Query
 {
-    protected $select_str = 'SELECT * FROM %s';
-    protected $delete_str = 'DELETE FROM %s';
-    protected $update_str = 'UPDATE %s SET %s';
-    protected $insert_str = 'INSERT INTO %s (%s) VALUES (%s)';
-
     protected $table;
     protected $sql;
     protected $parameters;
@@ -75,7 +70,6 @@ class Query
             $str = '`'.$k.'`=:'.$k;
 
         $this->bind = array_merge($this->bind, $data);
-
         return $str;
     }
 }

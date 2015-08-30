@@ -2,6 +2,8 @@
 
 namespace PhpModerno\Query;
 
+use PhpModerno\Query\Drivers\MySql;
+
 class QueryBuilder
 {
 	private static $db;
@@ -20,7 +22,7 @@ class QueryBuilder
 
 	public static function query($table)
 	{
-		self::$sql = new Query();
+		self::$sql = new MySql();
 		self::$sql->table($table);
 		return self::$sql;
 	}

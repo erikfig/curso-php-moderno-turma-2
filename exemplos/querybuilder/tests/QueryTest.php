@@ -8,7 +8,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 {
 	public function testSimpleSelect()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->select()
 			->getSql();
@@ -18,7 +18,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSimpleUpdate()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->update(['name'=>'Erik'])
 			->getSql();
@@ -28,7 +28,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSimpleInsert()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->insert(['name'=>'erik', 'lastname'=>'figueiredo'])
 			->getSql();
@@ -38,7 +38,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSimpleDelete()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->delete()
 			->getSql();
@@ -48,7 +48,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testDeleteWithWhere()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->where(['id'=>'1'])
 			->delete()
@@ -59,7 +59,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testUpdateWithWhere()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->where(['id'=>1])
 			->update(['name'=>'Erik'])
@@ -70,7 +70,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testSelectWithWhere()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->where(['id'=>'1'])
 			->select()
@@ -81,7 +81,7 @@ class QueryTest extends PHPUnit_Framework_TestCase
 
 	public function testBindValues()
 	{
-		$query = new Query;
+		$query = new Drivers\Mysql;
 		$sql = $query->table('users')
 			->where(['id'=>'1'])
 			->select()
